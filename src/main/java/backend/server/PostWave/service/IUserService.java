@@ -9,4 +9,6 @@ public interface IUserService {
     List<User> getAllUsers();
 
     User findUserById(Long id);
+
+    User findUserByEmail(String email);
 }

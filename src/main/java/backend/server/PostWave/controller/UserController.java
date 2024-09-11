@@ -2,6 +2,7 @@ package backend.server.PostWave.controller;
 
 import backend.server.PostWave.model.User;
 import backend.server.PostWave.service.IUserService;
+import backend.server.PostWave.service.auth.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ public class UserController {
 
     @Autowired
     IUserService userService ;
+    @Autowired
+    JwtService jwtService ;
 
     @GetMapping("/all_users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -35,6 +38,21 @@ public class UserController {
 
         User user = userService.findUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/get_user_by_email/{email}")
+    public ResponseEntity<User> findUserByEmail(@PathVariable("email") String email) {
+        User user = userService.findUserByEmail(email);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<User> findCurrentUser(@RequestHeader("Authorization") String authHeader) {
+      return ResponseEntity.ok(jwtService.getUserFromToken(authHeader));
     }
 
 
