@@ -38,6 +38,8 @@ public class AuthService implements IAuthService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .userId(user.getId())
+                .role(user.getRole())
                 .build();
     }
 
@@ -55,6 +57,8 @@ public class AuthService implements IAuthService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .userId(user.getId())
+                .role(user.getRole())
                 .build();
     }
 

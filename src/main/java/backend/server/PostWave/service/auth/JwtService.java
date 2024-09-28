@@ -1,5 +1,7 @@
 package backend.server.PostWave.service.auth;
 
+import backend.server.PostWave.dto.UserDto;
+import backend.server.PostWave.mapper.UserMapper;
 import backend.server.PostWave.model.User;
 import backend.server.PostWave.repository.IUserRepo;
 import backend.server.PostWave.service.implementation.UserService;
@@ -16,6 +18,7 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,9 @@ public class JwtService {
     private long jwtExpiration;
     @Autowired
     private IUserRepo userRepo;
+    @Autowired
+    UserMapper userMapper;
+
     public String extractUsername(String token) {
 
         return extractClaim(token, Claims::getSubject);
@@ -94,9 +100,11 @@ public class JwtService {
     }
 
 
-    public User getUserFromToken(String authHeader) {
+    public UserDto getUserFromToken(String authHeader) {
      String token = authHeader.replace("Bearer ", "");
      String username = extractUsername(token);
-     return userRepo.findByEmail(username).orElse(null);
+     User user = userRepo.findByEmail(username).orElse(null);
+     return userMapper.ToDto(user);
     }
+
 }

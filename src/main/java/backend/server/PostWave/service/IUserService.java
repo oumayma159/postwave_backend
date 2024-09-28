@@ -11,4 +11,6 @@ public interface IUserService {
     User findUserById(Long id);
 
     User findUserByEmail(String email);
+
+    User getCurrentUser();
 }

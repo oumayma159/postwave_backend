@@ -1,5 +1,7 @@
 package backend.server.PostWave.controller;
 
+import backend.server.PostWave.dto.UserDto;
+import backend.server.PostWave.mapper.UserMapper;
 import backend.server.PostWave.model.User;
 import backend.server.PostWave.service.IUserService;
 import backend.server.PostWave.service.auth.JwtService;
@@ -20,11 +22,13 @@ public class UserController {
     IUserService userService ;
     @Autowired
     JwtService jwtService ;
+    @Autowired
+    UserMapper userMapper ;
 
     @GetMapping("/all_users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.ToDtoList(users), HttpStatus.OK);
     }
 
     @GetMapping("/get_user/{id}")
@@ -51,8 +55,12 @@ public class UserController {
     }
 
     @GetMapping("/currentUser")
-    public ResponseEntity<User> findCurrentUser(@RequestHeader("Authorization") String authHeader) {
-      return ResponseEntity.ok(jwtService.getUserFromToken(authHeader));
+//    public ResponseEntity<UserDto> findCurrentUser(@RequestHeader("Authorization") String authHeader) {
+//      return ResponseEntity.ok(jwtService.getUserFromToken(authHeader));
+//    }
+    public ResponseEntity<UserDto> findCurrentUser() {
+        User user = userService.getCurrentUser();
+        return ResponseEntity.ok(userMapper.ToDto(user));
     }
 
 
