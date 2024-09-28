@@ -60,7 +60,12 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/v1/user/**").hasRole("USER_CREATE")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/user/**").hasRole("USER_UPDATE")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").hasRole("USER_DELETE")
-
+                // Permissions pour les posts
+                .requestMatchers("api/v1/post/**").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "api/v1/post/**").hasAuthority("USER_READ")
+                .requestMatchers(HttpMethod.POST, "/api/v1/post/**").hasRole("USER_CREATE")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/post/**").hasRole("USER_UPDATE")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/post/**").hasRole("USER_DELETE")
                 // Permissions pour les posts
                 .requestMatchers("api/v1/post/**").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "api/v1/post/**").hasAuthority("USER_READ")

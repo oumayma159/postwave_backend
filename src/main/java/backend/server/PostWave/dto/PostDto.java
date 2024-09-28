@@ -1,6 +1,7 @@
 package backend.server.PostWave.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,9 @@ public class PostDto {
     private String description;
     private UserDto user;
     private List<LikeDto> likes;
+    private List<CommentDto> comments;
+    private Integer numberLikes ;
+    private boolean isLiked;
 //    private List<CommentDto> comments ;
 
 }

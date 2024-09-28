@@ -1,4 +1,7 @@
 package backend.server.PostWave.repository;
 
-public interface ICommentRepo {
+import backend.server.PostWave.model.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ICommentRepo extends JpaRepository<Comment, Long> {
 }

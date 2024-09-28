@@ -27,8 +27,8 @@ public class PostController {
 
     @GetMapping("/all_posts")
     public ResponseEntity<List<PostDto>> getAllPosts() {
-        List<PostDto> posts = postService.getAllPosts();
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+        List<Post> posts = postService.getAllPosts();
+        return new ResponseEntity<>(postMapper.ToDtoList(posts), HttpStatus.OK);
     }
 
     @GetMapping("/getPost/{postId}")

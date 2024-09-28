@@ -27,16 +27,12 @@ public class LikeService implements ILikeService {
     @Autowired
     private IUserService userService;
 
-    public Like addLike(Long postId,Long userId) {
+    public Like addLike(Long postId) {
         Optional<Post> postOptional = postRepository.findById(postId);
         if (postOptional.isEmpty()) {
             throw new IllegalArgumentException("Post not found");
         }
-        User user = userService.findUserById(userId);
-        if (!(user == null)) {
-            throw new IllegalArgumentException("User did like post");
-        }
-//        User user = userService.getCurrentUser() ;
+        User user = userService.getCurrentUser() ;
         Like like = new Like();
         like.setPost(postOptional.get());
         like.setUser(user);

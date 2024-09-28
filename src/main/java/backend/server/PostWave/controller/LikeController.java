@@ -15,9 +15,9 @@ public class LikeController {
     @Autowired
     private ILikeService likeService;
 
-    @PostMapping("/add_like/{userId}/{postId}")
-    public ResponseEntity<?> likePost(@PathVariable long postId, @PathVariable long userId) {
-        likeService.addLike(postId, userId);
+    @PostMapping("/add_like/{postId}")
+    public ResponseEntity<?> likePost(@PathVariable long postId) {
+        likeService.addLike(postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

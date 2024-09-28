@@ -29,9 +29,9 @@ public class PostService implements IPostService {
     @Autowired
     private UserService userService;
 
-    public List<PostDto> getAllPosts(){
+    public List<Post> getAllPosts(){
         List<Post> posts = postRepo.findAll();
-        return postMapper.ToDtoList(posts);
+        return posts;
     }
 
     public Post getPostById(Long id) {
