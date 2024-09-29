@@ -60,9 +60,10 @@ public class PostController {
         return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<PostDto>> getUserPost(@PathVariable Long userId) {
-        List<Post> posts = postService.getPostsByUserId(userId);
+    @GetMapping("/currentUserPosts")
+    public ResponseEntity<List<PostDto>> getUserPost() {
+        User currentUser = userService.getCurrentUser();
+        List<Post> posts = postService.getPostsByUserId(currentUser.getId());
         return new ResponseEntity<>(postMapper.ToDtoList(posts),HttpStatus.OK);
     }
 

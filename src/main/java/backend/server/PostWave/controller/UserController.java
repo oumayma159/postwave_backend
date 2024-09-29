@@ -55,13 +55,13 @@ public class UserController {
     }
 
     @GetMapping("/currentUser")
-//    public ResponseEntity<UserDto> findCurrentUser(@RequestHeader("Authorization") String authHeader) {
-//      return ResponseEntity.ok(jwtService.getUserFromToken(authHeader));
-//    }
-    public ResponseEntity<UserDto> findCurrentUser() {
-        User user = userService.getCurrentUser();
-        return ResponseEntity.ok(userMapper.ToDto(user));
+    public ResponseEntity<UserDto> findCurrentUser(@RequestHeader("Authorization") String authHeader) {
+      return ResponseEntity.ok(jwtService.getUserFromToken(authHeader));
     }
+//    public ResponseEntity<UserDto> findCurrentUser() {
+//        User user = userService.getCurrentUser();
+//        return ResponseEntity.ok(userMapper.ToDto(user));
+//    }
 
 
 }
