@@ -39,9 +39,13 @@ public class LikeService implements ILikeService {
         return likeRepository.save(like);
     }
 
+    public boolean isPostLikedByUser(Long postId, Long userId) {
+        return likeRepository.existsByPostIdAndUserId(postId, userId);
+    }
+
     public void deleteLike(Long postId) {
         User authUser = userService.getCurrentUser();
-        Optional<Like> targetLike = likeRepository.findByPostId(postId) ;
+        Optional<Like> targetLike = likeRepository.findByPostIdAndUserId(postId, authUser.getId()) ;
         if (!targetLike.isEmpty()) {
             if (targetLike.get().getUser().equals(authUser)) {
                 likeRepository.deleteById(targetLike.get().getId());

@@ -5,7 +5,10 @@ import backend.server.PostWave.dto.PostDto;
 import backend.server.PostWave.dto.UpdatePostDto;
 import backend.server.PostWave.mapper.PostMapper;
 import backend.server.PostWave.model.Post;
+import backend.server.PostWave.model.User;
 import backend.server.PostWave.service.IPostService;
+import backend.server.PostWave.service.IUserService;
+import backend.server.PostWave.service.implementation.LikeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +24,28 @@ public class PostController {
 
     @Autowired
     IPostService postService ;
+    @Autowired
+    IUserService userService ;
 
     @Autowired
     PostMapper postMapper ;
+    @Autowired
+    private LikeService likeService;
 
     @GetMapping("/all_posts")
     public ResponseEntity<List<PostDto>> getAllPosts() {
         List<Post> posts = postService.getAllPosts();
-        return new ResponseEntity<>(postMapper.ToDtoList(posts), HttpStatus.OK);
+        User currentUser = userService.getCurrentUser();
+        List<PostDto> postsDto = postMapper.ToDtoList(posts);
+        for (PostDto postDto : postsDto) {
+            int likesCount = postDto.getLikes() != null ? postDto.getLikes().size() : 0;
+            postDto.setNumberLikes(likesCount);
+
+            boolean isLiked = likeService.isPostLikedByUser(postDto.getId(), currentUser.getId());
+            postDto.setLiked(isLiked);
+
+        }
+        return new ResponseEntity<>(postsDto, HttpStatus.OK);
     }
 
     @GetMapping("/getPost/{postId}")

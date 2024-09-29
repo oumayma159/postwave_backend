@@ -1,6 +1,7 @@
 package backend.server.PostWave.controller;
 
 import backend.server.PostWave.dto.LikeDto;
+import backend.server.PostWave.mapper.LikeMapper;
 import backend.server.PostWave.model.Like;
 import backend.server.PostWave.service.ILikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class LikeController {
     @Autowired
     private ILikeService likeService;
+    @Autowired
+    private LikeMapper likeMapper;
 
     @PostMapping("/add_like/{postId}")
-    public ResponseEntity<?> likePost(@PathVariable long postId) {
-        likeService.addLike(postId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<LikeDto> likePost(@PathVariable long postId) {
+        Like like = likeService.addLike(postId);
+        LikeDto likeDto =likeMapper.toDto(like);
+        return new ResponseEntity<>(likeDto,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/unlike/{postId}")
@@ -27,8 +31,4 @@ public class LikeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/count/{postId}")
-    public long getNumberOfLikesForPost(@PathVariable Long postId) {
-        return likeService.getNumberOfLikesForPost(postId);
-    }
 }

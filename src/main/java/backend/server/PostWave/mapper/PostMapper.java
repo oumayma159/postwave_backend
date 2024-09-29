@@ -20,7 +20,7 @@ public interface PostMapper {
     List<Post> ToEntityList(List<PostDto> postDtoList);
     @Mappings({
             @Mapping(source = "id", target = "id"),
-            @Mapping(target = "numberLikes", expression = "java(post.getLikes() != null ? post.getLikes().size() : 0)")
+//            @Mapping(target = "numberLikes", expression = "java(post.getLikes() != null ? post.getLikes().size() : 0)")
     })
     List<PostDto> ToDtoList(List<Post> postList);
 }

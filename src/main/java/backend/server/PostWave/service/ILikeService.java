@@ -4,6 +4,6 @@ import backend.server.PostWave.model.Like;
 
 public interface ILikeService {
     Like addLike(Long postId);
-    long getNumberOfLikesForPost(Long postId);
+    boolean isPostLikedByUser(Long postId, Long userId);
     void deleteLike(Long likeId);
 }

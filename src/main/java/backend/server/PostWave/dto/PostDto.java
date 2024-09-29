@@ -23,6 +23,5 @@ public class PostDto {
     private List<CommentDto> comments;
     private Integer numberLikes ;
     private boolean isLiked;
-//    private List<CommentDto> comments ;
 
 }
