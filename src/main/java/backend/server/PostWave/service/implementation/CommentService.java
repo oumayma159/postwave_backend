@@ -28,26 +28,23 @@ public class CommentService implements ICommentService {
     @Autowired
     private ICommentRepo commentRepo;
 
-    public Comment addComment(Long postId, CommentDto commentDto){
-        Post post = postService.getPostById(postId);
-        User user = userService.getCurrentUser();
-        String content = commentDto.getContent();
-        Comment comment = new Comment();
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setContent(content);
-        return commentRepo.save(comment) ;
+    public Comment addComment(Long postId, CommentDto commentDto) {
+        return commentRepo.save(Comment.builder()
+                .post(postService.getPostById(postId))
+                .user(userService.getCurrentUser())
+                .content(commentDto.getContent())
+                .build());
     }
 
-    public List<Comment> getCommentsByPost(Long postId){
+    public List<Comment> getCommentsByPost(Long postId) {
         Post post = postService.getPostById(postId);
         List<Comment> comments = post.getComments();
         return comments;
     }
 
-    public void deleteComment(Long commentId){
+    public void deleteComment(Long commentId) {
         User authUser = userService.getCurrentUser();
-        Optional<Comment> targetComment = commentRepo.findById(commentId) ;
+        Optional<Comment> targetComment = commentRepo.findById(commentId);
         if (targetComment.isPresent()) {
             if (targetComment.get().getUser().equals(authUser)) {
                 commentRepo.deleteById(commentId);

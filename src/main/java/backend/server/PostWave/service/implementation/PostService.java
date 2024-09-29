@@ -30,17 +30,11 @@ public class PostService implements IPostService {
     private UserService userService;
 
     public List<Post> getAllPosts(){
-        List<Post> posts = postRepo.findAll();
-        return posts;
+        return postRepo.findAll();
     }
 
     public Post getPostById(Long id) {
-        Optional<Post> post = postRepo.findById(id);
-        if (post.isPresent()) {
-            return post.get();
-        } else {
-            throw new UserNotFoundException("Post not found with id " + id);
-        }
+        return postRepo.findById(id).orElseThrow(()->new UserNotFoundException("Post not found with id " + id));
     }
 
     public PostDto createPost(PostDto postDto) {
