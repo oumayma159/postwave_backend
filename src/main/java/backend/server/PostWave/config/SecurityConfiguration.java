@@ -54,10 +54,10 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/v1/admin/**").hasAuthority("ADMIN_CREATE")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/admin/**").hasAuthority("ADMIN_UPDATE")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/admin/**").hasAuthority("ADMIN_DELETE")
-                .requestMatchers("/api/v1/user/currentUser").hasAnyRole("USER", "ADMIN")
+//                .requestMatchers("/api/v1/user/currentUser").hasAnyRole("USER", "ADMIN")
 
                 // Permissions pour les utilisateurs
-                .requestMatchers("api/v1/user/**").hasRole("USER")
+                .requestMatchers("api/v1/user/**").hasAnyRole("USER","ADMIN")
                 .requestMatchers(HttpMethod.GET, "api/v1/user/**").hasAuthority("USER_READ")
                 .requestMatchers(HttpMethod.POST, "/api/v1/user/**").hasAuthority("USER_CREATE")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/user/**").hasAuthority("USER_UPDATE")
